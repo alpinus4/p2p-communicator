@@ -60,8 +60,9 @@ impl CommunicatorApp {
 
     fn render_send_message_ui(&mut self, ui: &mut Ui) {
         ui.horizontal(|ui| {
-            ui.text_edit_singleline(&mut self.current_message);
-            if ui.button("Send").clicked() {
+            let message_input = ui.text_edit_singleline(&mut self.current_message);
+            if message_input.lost_focus() && ui.input(|i| i.key_pressed(egui::Key::Enter))
+            || ui.button("Send").clicked() {
                 self.send_message();
             }
         });
